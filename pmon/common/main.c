@@ -167,7 +167,7 @@ int autoexec(char* dev) {
 		if(!old_ver)  //getenv函数有个问题， 会返回0值，造成strcmp崩溃，所以先要判断下
 			old_ver="";
 		printf("old_ver=%s,new_ver=%s\n",old_ver,ver);
-		if( ver && strcmp(ver,old_ver) != 0) { 
+		if( 1 ) { //install.ram 
 			setenv("autoexecDev",dev); //可以在autoexec.bat中用${autoexecDev}调用
 			filelen=fread (buf, 1, 32768, fp); //一次读入
 			fclose(fp);
@@ -477,15 +477,10 @@ int main(void)
 #endif
 
 /* autoexec */
-s=getenv("autoexec");
 
-#if !defined(LS1BSOC)
-if(s && strcmp(s,"yes") == 0)
-#endif
-{
-if(autoexec("/dev/fat@usb0") == 1)
-	autoexec("/dev/ext2@usb0");
-}
+if(autoexec("/dev/fs/fat@usb0") == 1)
+	if(autoexec("/dev/ext2@usb0")==1)
+		autoexec("tftp://192.168.1.1");
 
 	#ifdef FAST_STARTUP
 		do_cmd("test");

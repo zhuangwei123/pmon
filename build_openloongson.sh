@@ -27,6 +27,5 @@ make all tgt=rom
 
 cd zloader.ls1c.openloongson
 make cfg all tgt=rom CROSS_COMPILE=mipsel-linux- LANG=C
-cp gzrom.bin ../pmon_openloongson.bin
 make cfg all tgt=ram CROSS_COMPILE=mipsel-linux- LANG=C
-cp gzram ../gzram.openloongson
+cp gzram ../install.openloongson
