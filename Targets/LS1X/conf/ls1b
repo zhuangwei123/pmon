@@ -66,6 +66,7 @@ select		cmd_set			# As cmd_env but not req. cmd_hist
 select		cmd_testdisk
 select		cmd_test
 #select		cmd_testfire
+select		cmd_cat
 select		cmd_xyzmodem
 select		pmon_zmodem_rz
 #
@@ -89,7 +90,7 @@ option		MEM_SIZE=0x04000000	# 64M(16bit) 定义内存大小 注意32bit和16bit�
 								# start.s文件中定义了引用那个内存配置，如#include "ddr2fconfig-samsung-CL3.S"
 
 select		ext2
-#select		yaffsfs		#lxy: there is a do_div error to open this with new cross-tool
+select		yaffsfs		#lxy: there is a do_div error to open this with new cross-tool
 select		fatfs
 select		gzip
 select		ramfiles
@@ -171,7 +172,11 @@ select		gmac
 sdcard0		at localbus0 flags 0
 option		SDCARD_USE_SPI0		#SPI控制器0或1
 option		SDCARD_CS=2			#片选
+option		SDCARD_DETECT=41		#插入侦测 gpio41
 option		SDCARD_CLK=25000000	#25MHz
+
+option		WRITE_ROM_LED=1 #devcp写mtd时LED6闪动 GPIO1
+#option		UPDATE_KEY=60   #jp22的2-3短接 进入强制刷机
 
 #### USB
 #uhci*		at pci? dev ? function ?
@@ -267,7 +272,7 @@ option		wait_key
 option		BUZZER				#蜂鸣器
 option		BUZZER_GPIO=40
 #option		FAST_STARTUP		#快速启动
-option		CONFIG_CHINESE
+#option		CONFIG_CHINESE
 
 ### 使用gpio输入的高低电平判断是否切换串口控制台
 #option		UART_CHANGE

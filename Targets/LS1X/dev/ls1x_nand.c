@@ -480,7 +480,7 @@ int ls1x_nand_init_buff(struct ls1x_nand_info *info)
 
 	order_addr_in = ORDER_ADDR_IN;
 
-	printf("data_buff_addr:0x%08x, dma_addr:0x%08x\n", info->data_buff, info->dma_desc);
+	//printf("data_buff_addr:0x%08x, dma_addr:0x%08x\n", info->data_buff, info->dma_desc);
 	
 	return 0;
 }
@@ -492,7 +492,7 @@ int ls1x_nand_init(void)
 	struct ls1x_nand_info *info;
 	struct nand_chip *chip;
 
-	printf("\nNAND dete\n");
+	printf("\nNAND detect\n");
 
 	/* Allocate memory for MTD device structure and private data */
 	ls1x_mtd = malloc(sizeof(struct mtd_info) + sizeof(struct ls1x_nand_info));
@@ -548,15 +548,9 @@ int ls1x_nand_init(void)
 		return 0;
 	}
 #endif
-#if defined(LS1BSOC)
-	add_mtd_device(ls1x_mtd, 0, 0xe00000, "reset");
-	add_mtd_device(ls1x_mtd, 0xe00000, 0x4180000-0xe00000, "root");
-	add_mtd_device(ls1x_mtd, 0x4180000, 0x7500000-0x4180000, "home");
-	add_mtd_device(ls1x_mtd, 0x7500000, 0x8000000-0x7500000, "kernel");
-#else
 	add_mtd_device(ls1x_mtd, 2*1024*1024, 20*1024*1024, "kernel");
 	add_mtd_device(ls1x_mtd, 22*1024*1024, 106*1024*1024, "rootfs");
-#endif
+	add_mtd_device(ls1x_mtd, 0, 2*1024*1024, "pmon(nand)");
 
 	return 0;
 }
