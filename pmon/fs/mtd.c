@@ -47,6 +47,7 @@
 #include <pmon.h>
 #include <linux/mtd/mtd.h>
 #include "../sys/dev/nand/yaf-nand/nand.h"
+#include <linux/mtd/nand.h>
 
 
 LIST_HEAD(mtdfiles, mtdfile) mtdfiles = LIST_HEAD_INITIALIZER(mtdfiles);
@@ -54,6 +55,7 @@ LIST_HEAD(mtdfiles, mtdfile) mtdfiles = LIST_HEAD_INITIALIZER(mtdfiles);
 static int mtdidx = 0;
 static struct mtdfile *goodpart0 = 0;
 extern unsigned char use_yaf;		//lxy
+extern struct mtd_info *ls1x_mtd;
 
 extern int nand_write_skip_bad(nand_info_t *nand, 
 	loff_t offset, size_t *length, 	u_char *buffer, int withoob);
@@ -336,7 +338,7 @@ int add_mtd_device(struct mtd_info *mtd, int offset, int size, char *name)
 	struct mtdfile *rmp;
 	int len = sizeof(struct mtdfile);
 
-	printf("Creat MTD partitions on \"%s\": name=\"%s\" size=%dByte\n", mtd->name, name, size);
+	printf("Creat MTD partitions on \"%s\": name=\"%s\" offset=%dByte size=%dByte\n", mtd->name, name, offset, size);
 
 	if (name)
 		len += strlen(name);
@@ -488,6 +490,27 @@ static int mtd_erase(int argc, char **argv)
 	printf("\nmtd_erase work done!\n");
 
 	return 0;
+}
+
+int mtdpart_setup_real(char *s);
+
+
+void first_del_all_parts()
+{
+  struct mtdfile *rmp;
+
+  LIST_FOREACH(rmp, &mtdfiles, i_next) {
+    LIST_REMOVE(rmp, i_next);
+  }
+}
+
+int mtd_rescan(char *name,char*value)
+{
+  if (value){
+    first_del_all_parts();
+    mtdpart_setup_real(value);
+  }
+  return 1;
 }
 
 static const Cmd Cmds[] =
