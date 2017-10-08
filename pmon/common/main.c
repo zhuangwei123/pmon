@@ -350,7 +350,7 @@ static void autoload(char *s)
 		} else if (cnt > 0 && strchr("u", getchar())) {
 			do_cmd("test");
 			do_cmd("load /dev/mtd0");
-			do_cmd("g console=ttyS2,115200 root=/dev/mtdblock1 rw rootfstype=yaffs2 init=/sbin/init video=ls1bfb:vga1024x768-24@60");
+			do_cmd("g console=ttyS2,115200 root=/dev/mtdblock1 rw rootfstype=yaffs2 video=ls1bfb:vga1024x768-24@60 panic=10 noswap");
 		}
 
 		ioctl(STDIN, TCSETAF, &sav);

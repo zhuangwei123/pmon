@@ -17,9 +17,9 @@ nand flash分区:
   注意分区大小要与linux kernel中的一致  
  1.新的方式:  
   在pmon命令行下用set 命令设置，兼容 linux的mtdparts方式。
-  set mtdparts ls1x-nand:20M@2M(kernel),106M@22M(rootfs)
- 2.老的方式:
-  修改 Targets/LS1X/dev/ls1x_nand.c
+  set mtdparts ls1x-nand:20M@2M(kernel),106M@22M(rootfs)  
+ 2.老的方式:  
+  修改 Targets/LS1X/dev/ls1x_nand.c  
 #ifndef MTDPARTS
 	add_mtd_device(ls1x_mtd, 2*1024*1024, 20*1024*1024, "kernel");
 	add_mtd_device(ls1x_mtd, 22*1024*1024, 106*1024*1024, "rootfs");
