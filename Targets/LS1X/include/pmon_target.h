@@ -65,6 +65,6 @@ void hexserial __P((int));
  */
 #define CLIENTPC 0x80100000
 #define SETCLIENTPC "80100000"
-
-extern int mtd_rescan(char *,char *);
-#define TGT_DEFENV {"mtdparts","ls1x-nand:20M@2M(kernel),106M@2M(rootfs),2M@0(pmon_nand)",0,mtd_rescan}
+#ifdef MTDPARTS
+#define TGT_DEFENV {"mtdparts","ls1x-nand:20M@2M(kernel),106M@2M(rootfs),2M@0(pmon_nand)",0}
+#endif

@@ -423,6 +423,11 @@ void dbginit(char *adr)
 	SBD_DISPLAY ("ENVI", CHKPNT_ENVI);
 	envinit ();
 
+#ifdef MTDPARTS
+int mtdpart_setup_real(char *s);
+    mtdpart_setup_real(getenv("mtdparts"));
+#endif
+
 #if defined(LS1ASOC)
 	{
 	char buf[10];

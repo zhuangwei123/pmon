@@ -542,11 +542,13 @@ int ls1x_nand_init(void)
 
 	/* Register the partitions */
 	ls1x_mtd->name = "ls1x-nand";
-/*
+
+//如果设置文件中定义MTDPARTS ， mtd分区设置将从env mtdparts里获取
+#ifndef MTDPARTS
 	add_mtd_device(ls1x_mtd, 2*1024*1024, 20*1024*1024, "kernel");
 	add_mtd_device(ls1x_mtd, 22*1024*1024, 106*1024*1024, "rootfs");
 	add_mtd_device(ls1x_mtd, 0, 2*1024*1024, "pmon(nand)");
-*/
+#endif
 	return 0;
 }
 
